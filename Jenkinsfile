@@ -14,10 +14,10 @@ node {
         // Start de database of maak ze aan
         sh '''
             docker start risedb || docker run -d --name risedb --network rise-net \
-                -e MARIADB_ROOT_PASSWORD=hogent \
+                -e MARIADB_ROOT_PASSWORD=wachtwoord1 \
                 -e MARIADB_DATABASE=rise \
                 -e MARIADB_USER=rise_usr \
-                -e MARIADB_PASSWORD=hogent26 \
+                -e MARIADB_PASSWORD=wachtwoord2 \
                 -v rise-data:/var/lib/mysql \
                 mariadb:11
         '''
@@ -31,9 +31,8 @@ node {
                 --network rise-net \
                 --restart on-failure \
                 -p 5001:8080 \
-                -e "ConnectionStrings__DatabaseConnection=Server=risedb;Port=3306;Database=rise;User=rise_usr;Password=hogent26" \
+                -e "ConnectionStrings__DatabaseConnection=Server=risedb;Port=3306;Database=rise;User=rise_usr;Password=wachtwoord2" \
                 riseapp
         '''
     }
 }
-
