@@ -29,10 +29,11 @@ node {
         sh '''
             docker run -d --name riserunning \
                 --network rise-net \
-                --restart on-failure \
+                --restart unless-stopped \
                 -p 5001:8080 \
                 -e "ConnectionStrings__DatabaseConnection=Server=risedb;Port=3306;Database=rise;User=rise_usr;Password=wachtwoord2" \
-                riseapp
+                riseapp \
+                -e ASPNETCORE_ENVIRONMENT=Development \
         '''
     }
 }
