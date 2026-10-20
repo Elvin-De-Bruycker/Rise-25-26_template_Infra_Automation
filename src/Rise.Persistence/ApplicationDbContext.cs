@@ -36,5 +36,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> opts) :
         base.OnModelCreating(modelBuilder);
         // Applying all types of IEntityTypeConfiguration in the Persistence project.
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            // MariaDB: sleutels mogen maximaal 3072 bytes zijn, dus geen varchar(4000) als sleutel.
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+        {
+            foreach (var property in entity.GetProperties())
+            {
+                if (property.ClrType == typeof(string) && (property.IsKey() || property.IsForeignKey()))
+                {
+                    property.SetMaxLength(255);
+                }
+        }
+    }
     }
 }
