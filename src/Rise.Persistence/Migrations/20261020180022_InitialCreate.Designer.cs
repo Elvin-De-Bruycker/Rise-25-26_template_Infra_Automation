@@ -12,7 +12,7 @@ using Rise.Persistence;
 namespace Rise.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20261020173842_InitialCreate")]
+    [Migration("20261020180022_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -92,8 +92,8 @@ namespace Rise.Persistence.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasMaxLength(4000)
-                        .HasColumnType("varchar(4000)");
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -117,19 +117,19 @@ namespace Rise.Persistence.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasMaxLength(4000)
-                        .HasColumnType("varchar(4000)");
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(4000)
-                        .HasColumnType("varchar(4000)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("SecurityStamp")
-                        .HasMaxLength(4000)
-                        .HasColumnType("varchar(4000)");
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");

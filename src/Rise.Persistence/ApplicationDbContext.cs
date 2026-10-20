@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rise.Domain.Products;
@@ -36,7 +36,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> opts) :
         base.OnModelCreating(modelBuilder);
         // Applying all types of IEntityTypeConfiguration in the Persistence project.
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-            // MariaDB: sleutels mogen maximaal 3072 bytes zijn, dus geen varchar(4000) als sleutel.
+
+        // MariaDB: sleutels mogen maximaal 3072 bytes zijn, dus geen varchar(4000) als sleutel.
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
         {
             foreach (var property in entity.GetProperties())
@@ -45,7 +46,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> opts) :
                 {
                     property.SetMaxLength(255);
                 }
+            }
         }
-    }
+
+        // MariaDB: een rij mag maximaal 65535 bytes zijn, dus kortere kolommen in de gebruikerstabel.
+        modelBuilder.Entity<IdentityUser>(b =>
+        {
+            b.Property(u => u.PasswordHash).HasMaxLength(256);
+            b.Property(u => u.SecurityStamp).HasMaxLength(256);
+            b.Property(u => u.ConcurrencyStamp).HasMaxLength(256);
+            b.Property(u => u.PhoneNumber).HasMaxLength(50);
+        });
     }
 }
