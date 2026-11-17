@@ -49,7 +49,7 @@ node {
                         docker run -d --name riserunning \
                             --restart unless-stopped \
                             -p 5001:8080 \
-                            -e "ConnectionStrings__DatabaseConnection=Server=192.0.2.20;Port=3306;Database=db;User=db_usr;Password=$DB_PASSWORD" \
+                            -e "ConnectionStrings__DatabaseConnection=Server=192.0.2.20;Port=3306;Database=db;User=db_usr;Password='$DB_PASSWORD'" \
                             riseapp
                     '''
                 }
